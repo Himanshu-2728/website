@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Useless Facts</title>
 </head>
 <body>
     <style>
@@ -58,10 +58,27 @@
             background: #005bb5;
         }
 
+        .fade {
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        a {
+            font-family: 'Poppins', 'sans-serif';
+            text-decoration: none;
+        }
+
+        .source {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 10vh;
+        }
+
 
     </style>
     <div class="head">
-        Random Fact
+        Random (Useless) Fact
     </div>    
 
     <div class="fact">
@@ -71,10 +88,16 @@
 
 
     </div>
-    <button id="newFact">New Fact</button>
+    <button id="newFact">Get Fact</button>
 
+    <div class="source">
+        
+        <a href="http://www.djtech.net/humor/useless_facts.htm" >Source, Made for fun</a>
+        
+    </div>
 
     <script>
+
         function getFact(){
             fetch('https://uselessfacts.jsph.pl/api/v2/facts/random')
             .then(response => response.json())
@@ -87,14 +110,21 @@
         const fact = document.querySelector('#fact')
         const new_fact_button = document.querySelector('button')
         const factBox = document.querySelector('.fact')
-
+        var first_time = true
         getFact()
 
         new_fact_button.addEventListener('click' , (e) => {
-            if (!factBox.classList.contains('show')){
+            if (first_time){
                 factBox.classList.add('show')
+                new_fact_button.innerText = 'New Fact'
+                first_time = false
             }else{
+                factBox.classList.remove('show')
                 getFact()
+                setTimeout(() => {
+                    factBox.classList.add('show')
+
+                } , 1000)
             }
         })
 
